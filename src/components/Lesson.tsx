@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle, Play } from 'lucide-react';
 import { Lesson as LessonType, lessons, modules } from '../data/courseData';
 import { Quiz } from './Quiz';
@@ -14,6 +14,11 @@ interface LessonProps {
 export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
   const [showQuiz, setShowQuiz] = useState(false);
   const [materialCompleted, setMaterialCompleted] = useState(false);
+  
+  // Reset material completed state when lesson changes
+  useEffect(() => {
+    setMaterialCompleted(false);
+  }, [lessonId]);
   
   const lesson = lessons.find(l => l.id === lessonId);
   const module = modules.find(m => m.id === lesson?.module);
